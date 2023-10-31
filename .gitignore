@@ -1,0 +1,6 @@
+database.sqlite3
+__pycache__
+.history
+.mypy_cache
+.vscode
+weibo_hot.xlsx
