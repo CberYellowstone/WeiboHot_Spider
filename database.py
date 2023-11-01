@@ -1,6 +1,6 @@
 import sqlite3
 import time
-import xlsxwriter
+import xlsxwriter # type: ignore
 
 
 def init_db():
@@ -85,3 +85,12 @@ def insert_data(data):
         )
     conn.commit()
     conn.close()
+
+
+def get_data(timestamp):
+    conn = sqlite3.connect("database.sqlite3")
+    c = conn.cursor()
+    c.execute("SELECT * FROM weibo_hot WHERE timestamp=?", (timestamp,))
+    data = c.fetchall()
+    conn.close()
+    return data

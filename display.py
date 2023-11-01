@@ -1,6 +1,7 @@
 import time
 from flask import Flask, request
 import sqlite3
+import database
 
 app = Flask(__name__)
 
@@ -9,11 +10,7 @@ app = Flask(__name__)
 def display_table():
     timestamp = request.args.get("timestamp")
 
-    conn = sqlite3.connect("database.sqlite3")
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM weibo_hot WHERE timestamp=?", (timestamp,))
-    data = c.fetchall()
+    data = database.get_data(timestamp)
 
     table_html = "<table>"
     table_html += "<tr><th>ID</th><th>Rank</th><th>Keyword</th><th>Num</th><th>Timestamp</th></tr>"
@@ -29,8 +26,6 @@ def display_table():
         )
         table_html += "</tr>"
     table_html += "</table>"
-
-    conn.close()
 
     return table_html
 
