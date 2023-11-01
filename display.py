@@ -32,14 +32,7 @@ def display_table():
 
 @app.route("/")
 def display_optional_time():
-    conn = sqlite3.connect("database.sqlite3")
-    c = conn.cursor()
-
-    c.execute("SELECT timestamp FROM weibo_hot")
-    data = c.fetchall()
-
-    conn.close()
-
+    data = database.get_time()
     time_list = []
     for row in data:
         time_list.append(row[0])
