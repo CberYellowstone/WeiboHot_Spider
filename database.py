@@ -33,6 +33,7 @@ def init_db():
         c.execute("USE weibo_hot")
     else:
         # 创建数据库
+        print("数据库不存在，正在创建...")
         c.execute("CREATE DATABASE weibo_hot CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci")
         # 选择数据库
         c.execute("USE weibo_hot")
@@ -51,14 +52,15 @@ def init_db():
         c.execute("DESCRIBE weibo_hot")
         table_info = c.fetchall()
         expected_table_info = [
-            ("id", "int", "NO", "PRI", None, "auto_increment"),
-            ("rank", "int", "YES", "", None, ""),
+            ("id", "int(11)", "NO", "PRI", None, "auto_increment"),
+            ("rank", "int(11)", "YES", "", None, ""),
             ("url", "text", "YES", "", None, ""),
             ("keyword", "text", "YES", "", None, ""),
             ("num", "text", "YES", "", None, ""),
-            ("timestamp", "int", "YES", "", None, ""),
+            ("timestamp", "int(11)", "YES", "", None, ""),
         ]
         if table_info != expected_table_info:
+            print("表结构不符合预期，正在重新创建...")
             # 删除表并重新创建正确的结构
             c.execute("DROP TABLE IF EXISTS weibo_hot")
             c.execute(
@@ -74,6 +76,7 @@ def init_db():
             conn.commit()
     else:
         # 创建表
+        print("表不存在，正在创建...")
         c.execute(
             """CREATE TABLE weibo_hot (
                 id INT AUTO_INCREMENT PRIMARY KEY,
